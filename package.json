@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "set DEBUG=app & nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint app.js",
+    "init": "eslint --init"
   },
   "repository": {
     "type": "git",
@@ -19,10 +21,17 @@
   },
   "homepage": "https://github.com/ddarkCode/library#readme",
   "dependencies": {
+    "bootstrap": "^3.4.1",
     "chalk": "^4.1.2",
     "debug": "^4.3.4",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
+    "jquery": "^3.6.0",
     "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.19.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0"
   }
 }
