@@ -13,8 +13,20 @@ app.set('view engine', 'ejs');
 app.use(morgan('tiny'));
 app.use(express.static('public'));
 
+const navs = [
+  { link: '/books', title: 'Books' },
+  { link: '/authors', title: 'Authors' },
+];
+
+const bookRouter = require('./src/routes/bookRoutes')(navs);
+
+app.use('/books', bookRouter);
+
 app.get('/', (req, res) => {
-  res.render('index', { title: 'Library' });
+  res.render('index', {
+    navs,
+    title: 'Library',
+  });
 });
 
 app.listen(PORT, () => {
