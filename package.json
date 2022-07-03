@@ -4,10 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "set DEBUG=app & nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint app.js",
-    "init": "eslint --init"
+    "dev": "set DEBUG=app, app:* & nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -28,11 +26,7 @@
     "ejs": "^3.1.8",
     "express": "^4.18.1",
     "jquery": "^3.6.0",
+    "mongoose": "^6.4.2",
     "morgan": "^1.10.0"
-  },
-  "devDependencies": {
-    "eslint": "^8.19.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.26.0"
   }
 }
