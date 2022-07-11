@@ -1,6 +1,8 @@
 const express = require('express');
 const debug = require('debug')('app:adminRoutes');
 
+const Book = require('../model/book');
+
 const adminRouter = express.Router();
 const books = [
   {
@@ -53,7 +55,7 @@ const books = [
   },
 ];
 
-function router(navs, Book) {
+function router(navs) {
   adminRouter.route('/').get((req, res) => {
     // eslint-disable-next-line wrap-iife
     (async function mongo() {

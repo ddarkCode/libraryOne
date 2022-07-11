@@ -1,7 +1,9 @@
 const express = require('express');
 const debug = require('debug')('app:bookRoutes');
 
-function router(navs, Book) {
+const Book = require('../model/book');
+
+function router(navs) {
   const bookRouter = express.Router();
 
   bookRouter.route('/').get((req, res) => {
