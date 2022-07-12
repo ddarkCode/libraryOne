@@ -5,6 +5,13 @@ const Book = require('../model/book');
 
 function router(navs) {
   const bookRouter = express.Router();
+  bookRouter.use((req, res, next) => {
+    if (req.user) {
+      next();
+    } else {
+      res.redirect('/');
+    }
+  });
 
   bookRouter.route('/').get((req, res) => {
     Book.find((err, foundBooks) => {

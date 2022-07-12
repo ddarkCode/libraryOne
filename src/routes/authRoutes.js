@@ -1,25 +1,59 @@
 const express = require('express');
+const passport = require('passport');
 const debug = require('debug')('app:authRoutes');
 
 const User = require('../model/user');
 
 const authRouter = express.Router();
 
-function router() {
+function router(navs) {
   authRouter.route('/sign-up').post((req, res) => {
-    debug(req.body);
-    req.login(req.body, (err) => {
+    const { username, password } = req.body;
+    const newUser = new User({
+      username,
+      password,
+    });
+
+    newUser.save((err, savedUser) => {
       if (err) {
-        res.json(err);
+        debug(err);
       } else {
-        res.redirect('/auth/profile');
+        req.login(savedUser, (err) => {
+          if (err) {
+            res.json(err);
+          } else {
+            res.redirect('/auth/profile');
+          }
+        });
       }
     });
   });
-
-  authRouter.route('/profile').get((req, res) => {
-    res.json(req.user);
-  });
+  authRouter
+    .route('/sign-in')
+    .get((req, res) => {
+      res.render('signin', {
+        navs,
+        title: 'Sign In',
+      });
+    })
+    .post(
+      passport.authenticate('local', {
+        successRedirect: '/auth/profile',
+        failureRedirect: '/',
+      })
+    );
+  authRouter
+    .route('/profile')
+    .all((req, res, next) => {
+      if (req.user) {
+        next();
+      } else {
+        res.redirect('/');
+      }
+    })
+    .get((req, res) => {
+      res.json(req.user);
+    });
   return authRouter;
 }
 
