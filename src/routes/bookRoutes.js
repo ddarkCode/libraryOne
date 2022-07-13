@@ -1,46 +1,15 @@
 const express = require('express');
-const debug = require('debug')('app:bookRoutes');
 
-const Book = require('../model/book');
+const bookController = require('../controllers/bookController');
 
 function router(navs) {
   const bookRouter = express.Router();
-  bookRouter.use((req, res, next) => {
-    if (req.user) {
-      next();
-    } else {
-      res.redirect('/');
-    }
-  });
+  const { getIndex, getById, middlewares } = bookController(navs);
 
-  bookRouter.route('/').get((req, res) => {
-    Book.find((err, foundBooks) => {
-      if (err) {
-        debug(err);
-      } else {
-        res.render('bookListView', {
-          navs,
-          title: 'Library',
-          books: foundBooks,
-        });
-      }
-    });
-  });
+  bookRouter.use(middlewares);
+  bookRouter.route('/').get(getIndex);
 
-  bookRouter.route('/:bookId').get((req, res) => {
-    const { bookId } = req.params;
-    Book.findById(bookId, (err, foundBook) => {
-      if (err) {
-        debug(err);
-      } else {
-        res.render('bookView', {
-          navs,
-          title: 'Library',
-          book: foundBook,
-        });
-      }
-    });
-  });
+  bookRouter.route('/:bookId').get(getById);
 
   return bookRouter;
 }
